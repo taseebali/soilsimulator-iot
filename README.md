@@ -31,6 +31,15 @@ Farmers often over-water or under-water crops due to lack of real-time soil mois
 Soil Simulator/
 ├── soil_sensor_simulator.py    # Python sensor simulator
 ├── requirements.txt             # Python dependencies
+├── README.md                    # Main documentation
+├── QUICKSTART_CLOUD.md         # ⭐ Quick cloud setup guide
+├── CLOUD_VM_SETUP.md           # Detailed VM deployment guide
+├── CLOUD_INTEGRATION.md        # BigQuery, Pub/Sub, ML integration
+├── GRAFANA_SETUP.md            # Dashboard configuration
+├── CLOUD_DEPLOYMENT.md         # Cloud operations reference
+├── run_local.ps1               # Local testing script
+├── run_cloud.ps1               # Cloud deployment script
+├── setup_vm.sh                 # Automated VM setup script
 ├── docker/
 │   ├── docker-compose.yml      # Docker orchestration
 │   └── mosquitto/
@@ -38,15 +47,22 @@ Soil Simulator/
 │       │   └── mosquitto.conf  # MQTT broker config
 │       ├── data/               # MQTT persistence
 │       └── log/                # MQTT logs
-└── telegraf/
-    └── telegraf.conf           # Telegraf configuration
+├── telegraf/
+│   └── telegraf.conf           # Telegraf configuration
+└── grafana/
+    └── soil_monitoring_dashboard.json  # Pre-built dashboard
 ```
 
 ---
 
 ## 🚀 Quick Start Guide
 
-### Prerequisites
+### 🌥️ **Cloud Deployment (Recommended)**
+**👉 See [QUICKSTART_CLOUD.md](QUICKSTART_CLOUD.md) for step-by-step cloud setup!**
+
+### 💻 **Local Development**
+
+#### Prerequisites
 
 1. **Python 3.8+** installed
 2. **Docker Desktop** installed and running

@@ -64,6 +64,16 @@ docker/influxdb_data/
 grafana_data/
 docker/grafana_data/
 
+#Custom shit I dont want there
+App.jsx
+CLOUD_DEPLOYMENT_README.md 
+CLOUD_SETUP_CHECKLIST.md
+CLOUD_VM_SETUP.md
+QUICKSTART_CLOUD.md 
+TROUBLESHOOTING_CLOUD.md
+Smart_Agriculture_Soil_Monitoring_Presentation.pptx
+GRAFANA_SETUP.md
+
 # Google Cloud credentials (NEVER commit!)
 *.json
 !package.json
