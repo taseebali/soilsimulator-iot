@@ -1,8 +1,26 @@
-# Python
+# ================================================
+# CUSTOM EXCLUSIONS (Keep these)
+# ================================================
+# These files are excluded per user preference
+App.jsx
+CLOUD_DEPLOYMENT_README.md 
+CLOUD_SETUP_CHECKLIST.md
+CLOUD_VM_SETUP.md
+QUICKSTART_CLOUD.md 
+TROUBLESHOOTING_CLOUD.md
+Smart_Agriculture_Soil_Monitoring_Presentation.pptx
+GRAFANA_SETUP.md
+
+# ================================================
+# PYTHON
+# ================================================
+# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
+
+# Distribution / packaging
 .Python
 build/
 develop-eggs/
@@ -30,88 +48,7 @@ ENV/
 env/
 .virtualenv/
 
-# IDEs
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# Environment variables
-.env
-.env.local
-.env.*.local
-
-# Logs
-*.log
-logs/
-*.log.*
-
-# Docker volumes and data (runtime generated)
-docker/mosquitto/data/*
-docker/mosquitto/log/*
-!docker/mosquitto/data/.gitkeep
-!docker/mosquitto/log/.gitkeep
-
-# InfluxDB data (runtime generated)
-influxdb_data/
-docker/influxdb_data/
-
-# Grafana data (runtime generated)
-grafana_data/
-docker/grafana_data/
-
-#Custom shit I dont want there
-App.jsx
-CLOUD_DEPLOYMENT_README.md 
-CLOUD_SETUP_CHECKLIST.md
-CLOUD_VM_SETUP.md
-QUICKSTART_CLOUD.md 
-TROUBLESHOOTING_CLOUD.md
-Smart_Agriculture_Soil_Monitoring_Presentation.pptx
-GRAFANA_SETUP.md
-
-# Google Cloud credentials (NEVER commit!)
-*.json
-!package.json
-!tsconfig.json
-!grafana/dashboards/*.json
-service-account-key.json
-*-key.json
-gcp-key.json
-credentials.json
-
-# Secrets and tokens (NEVER commit!)
-secrets/
-*.key
-*.pem
-*.p12
-*.token
-
-# Temporary files
-*.tmp
-*.temp
-temp/
-tmp/
-
-# OS files
-Thumbs.db
-.DS_Store
-desktop.ini
-
-# PowerPoint/Office temp files
-~$*.pptx
-~$*.docx
-
-# Backup files
-*.bak
-*.backup
-*~
-
-# Python testing
+# Testing
 htmlcov/
 .tox/
 .coverage
@@ -129,17 +66,127 @@ coverage.xml
 dmypy.json
 .pyre/
 
-# Node modules (if using any JS tools)
-node_modules/
+# Jupyter Notebook
+.ipynb_checkpoints
 
-# Package files
+# ================================================
+# DOCKER RUNTIME DATA
+# ================================================
+# Docker volumes and data (runtime generated)
+docker/mosquitto/data/*
+docker/mosquitto/log/*
+!docker/mosquitto/data/.gitkeep
+!docker/mosquitto/log/.gitkeep
+
+# InfluxDB data (runtime generated)
+influxdb_data/
+docker/influxdb_data/
+
+# Grafana data (runtime generated)
+grafana_data/
+docker/grafana_data/
+
+# ================================================
+# SECRETS & CREDENTIALS (NEVER COMMIT!)
+# ================================================
+# Google Cloud credentials
+*.json
+!package.json
+!tsconfig.json
+!grafana/*.json
+service-account-key.json
+*-key.json
+gcp-key.json
+credentials.json
+telegraf-key.json
+
+# SSH keys and certificates
+*.key
+*.pem
+*.p12
+*.ppk
+id_rsa*
+id_ed25519*
+
+# API tokens and secrets
+*.token
+secrets/
+.env
+.env.local
+.env.*.local
+
+# ================================================
+# IDE & EDITORS
+# ================================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# ================================================
+# OPERATING SYSTEM FILES
+# ================================================
+# Windows
+Thumbs.db
+Desktop.ini
+ehthumbs.db
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Linux
+*~
+
+# ================================================
+# LOGS
+# ================================================
+*.log
+logs/
+*.log.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ================================================
+# TEMPORARY & BACKUP FILES
+# ================================================
+*.tmp
+*.temp
+temp/
+tmp/
+*.bak
+*.backup
+*.swp
+*.swo
+
+# Office temporary files
+~$*.pptx
+~$*.docx
+~$*.xlsx
+
+# ================================================
+# PACKAGE FILES
+# ================================================
 *.tar.gz
 *.zip
 *.rar
+*.7z
 
-# Keep empty directories
+# Node modules (if using any JS tools)
+node_modules/
+
+# ================================================
+# KEEP EMPTY DIRECTORIES
+# ================================================
 !.gitkeep
-
-# Large binary files (optional - use Git LFS for these)
-# *.pptx
-# *.pdf
+!**/.gitkeep
