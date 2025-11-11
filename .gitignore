@@ -3,14 +3,23 @@
 # ================================================
 # These files are excluded per user preference
 App.jsx
+Smart_Agriculture_Soil_Monitoring_Presentation.pptx
+create_presentation.py
+00 - 03 - Final Exam Presentation (1).pdf
+smallpdf-convert-20251111-163826/
+ENHANCED_FEATURES_GUIDE.md
+EXAM_READINESS_SUMMARY.md
+GRAFANA_ACTUATOR_PANELS.md
+QUICKSTART_CLOUD.md
+QUICKSTART.md
+RUNNING_SIMULATOR_ON_VM.md
+TROUBLESHOOTING_CLOUD.md
+CLOUD_VM_SETUP.md
+
+# Exclude old documentation that was removed
 CLOUD_DEPLOYMENT_README.md 
 CLOUD_SETUP_CHECKLIST.md
-CLOUD_VM_SETUP.md
-QUICKSTART_CLOUD.md 
-TROUBLESHOOTING_CLOUD.md
-Smart_Agriculture_Soil_Monitoring_Presentation.pptx
 GRAFANA_SETUP.md
-create_presentation.py
 
 # ================================================
 # PYTHON

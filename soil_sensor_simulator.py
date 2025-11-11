@@ -98,6 +98,12 @@ def main():
     parser.add_argument('--field-name', type=str,
                        default=os.getenv('FIELD_NAME', 'Field A - Tomatoes'),
                        help='Field name (default: Field A - Tomatoes, env: FIELD_NAME)')
+    parser.add_argument('--username', type=str,
+                       default=os.getenv('MQTT_USERNAME'),
+                       help='MQTT username for authentication (optional, env: MQTT_USERNAME)')
+    parser.add_argument('--password', type=str,
+                       default=os.getenv('MQTT_PASSWORD'),
+                       help='MQTT password for authentication (optional, env: MQTT_PASSWORD)')
     parser.add_argument('--dry-run', action='store_true',
                        help='Dry run mode - print data without publishing to MQTT')
     parser.add_argument('--verbose', '-v', action='store_true',
@@ -129,6 +135,11 @@ def main():
         client.on_connect = on_connect
         client.on_disconnect = on_disconnect
         client.on_publish = on_publish
+        
+        # Set username and password if provided
+        if args.username and args.password:
+            client.username_pw_set(args.username, args.password)
+            logger.info(f"MQTT authentication enabled for user: {args.username}")
         
         # Enable automatic reconnection
         client.reconnect_delay_set(min_delay=1, max_delay=120)
