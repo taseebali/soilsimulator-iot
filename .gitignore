@@ -36,7 +36,6 @@ env/
 *.swp
 *.swo
 *~
-.DS_Store
 
 # Jupyter Notebook
 .ipynb_checkpoints
@@ -51,34 +50,36 @@ env/
 logs/
 *.log.*
 
-# Docker volumes and data
+# Docker volumes and data (runtime generated)
 docker/mosquitto/data/*
 docker/mosquitto/log/*
 !docker/mosquitto/data/.gitkeep
 !docker/mosquitto/log/.gitkeep
 
-# InfluxDB data
+# InfluxDB data (runtime generated)
 influxdb_data/
 docker/influxdb_data/
 
-# Grafana data
+# Grafana data (runtime generated)
 grafana_data/
 docker/grafana_data/
 
-# Google Cloud credentials
+# Google Cloud credentials (NEVER commit!)
 *.json
 !package.json
 !tsconfig.json
+!grafana/dashboards/*.json
 service-account-key.json
 *-key.json
 gcp-key.json
 credentials.json
 
-# Secrets and tokens
+# Secrets and tokens (NEVER commit!)
 secrets/
 *.key
 *.pem
 *.p12
+*.token
 
 # Temporary files
 *.tmp
@@ -94,14 +95,13 @@ desktop.ini
 # PowerPoint/Office temp files
 ~$*.pptx
 ~$*.docx
-*.tmp
 
 # Backup files
 *.bak
 *.backup
 *~
 
-# Python coverage
+# Python testing
 htmlcov/
 .tox/
 .coverage
@@ -113,21 +113,11 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 
-# MyPy
+# Type checking
 .mypy_cache/
 .dmypy.json
 dmypy.json
-
-# Pyre
 .pyre/
-
-# Test outputs
-test-results/
-test-outputs/
-
-# Generated presentations (optional - uncomment if you want to track these)
-# *.pptx
-# *.pdf
 
 # Node modules (if using any JS tools)
 node_modules/
@@ -137,10 +127,9 @@ node_modules/
 *.zip
 *.rar
 
-# Custom - Project specific
-Smart_Agriculture_Soil_Monitoring_Presentation.pptx
-presentation_output/
-screenshots/
-
 # Keep empty directories
 !.gitkeep
+
+# Large binary files (optional - use Git LFS for these)
+# *.pptx
+# *.pdf
