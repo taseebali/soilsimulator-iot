@@ -20,7 +20,7 @@
   "graphTooltip": 0,
   "id": null,
   "links": [],
-  "liveNow": true,
+  "liveNow": false,
   "panels": [
     {
       "datasource": {
@@ -64,7 +64,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 5,
+        "w": 6,
         "x": 0,
         "y": 0
       },
@@ -135,8 +135,8 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 5,
-        "x": 5,
+        "w": 6,
+        "x": 6,
         "y": 0
       },
       "id": 2,
@@ -198,8 +198,8 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 4,
-        "x": 10,
+        "w": 6,
+        "x": 12,
         "y": 0
       },
       "id": 3,
@@ -228,252 +228,6 @@
       ],
       "title": "Battery Voltage",
       "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "influxdb_datasource"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [
-            {
-              "options": {
-                "0": {
-                  "text": "CLOSED",
-                  "color": "green"
-                },
-                "1": {
-                  "text": "OPEN",
-                  "color": "blue"
-                }
-              },
-              "type": "value"
-            }
-          ],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": 0
-              },
-              {
-                "color": "blue",
-                "value": 1
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 5,
-        "x": 14,
-        "y": 0
-      },
-      "id": 7,
-      "options": {
-        "colorMode": "background",
-        "graphMode": "none",
-        "justifyMode": "center",
-        "orientation": "auto",
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"],
-          "fields": ""
-        },
-        "textMode": "value_and_name",
-        "text": {
-          "titleSize": 16,
-          "valueSize": 40
-        }
-      },
-      "pluginVersion": "10.0.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "influxdb_datasource"
-          },
-          "query": "from(bucket: \"soil_data\")\n  |> range(start: -5m)\n  |> filter(fn: (r) => r._measurement == \"irrigation_control\")\n  |> filter(fn: (r) => r._field == \"valve_open\")\n  |> last()",
-          "refId": "A"
-        }
-      ],
-      "title": "Irrigation Valve",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "influxdb_datasource"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "text",
-                "value": 0
-              },
-              {
-                "color": "light-blue",
-                "value": 0.1
-              },
-              {
-                "color": "blue",
-                "value": 5
-              },
-              {
-                "color": "dark-blue",
-                "value": 15
-              }
-            ]
-          },
-          "unit": "lengthmm"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 5,
-        "x": 19,
-        "y": 0
-      },
-      "id": 8,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "center",
-        "orientation": "auto",
-        "reduceOptions": {
-          "values": false,
-          "calcs": ["lastNotNull"],
-          "fields": ""
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "10.0.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "influxdb_datasource"
-          },
-          "query": "from(bucket: \"soil_data\")\n  |> range(start: -5m)\n  |> filter(fn: (r) => r._measurement == \"mqtt_consumer\")\n  |> filter(fn: (r) => r._field == \"rainfall_mm\")\n  |> last()",
-          "refId": "A"
-        }
-      ],
-      "title": "Current Rainfall",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "influxdb_datasource"
-      },
-      "description": "Active system alerts and warnings",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "custom": {
-            "align": "left",
-            "cellOptions": {
-              "type": "auto"
-            },
-            "inspect": false
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          }
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "severity"
-            },
-            "properties": [
-              {
-                "id": "custom.cellOptions",
-                "value": {
-                  "type": "color-background"
-                }
-              },
-              {
-                "id": "mappings",
-                "value": [
-                  {
-                    "options": {
-                      "critical": {
-                        "color": "red",
-                        "index": 0
-                      },
-                      "warning": {
-                        "color": "yellow",
-                        "index": 1
-                      },
-                      "resolved": {
-                        "color": "green",
-                        "index": 2
-                      }
-                    },
-                    "type": "value"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 24,
-        "x": 0,
-        "y": 8
-      },
-      "id": 9,
-      "options": {
-        "cellHeight": "sm",
-        "footer": {
-          "countRows": false,
-          "fields": "",
-          "reducer": ["sum"],
-          "show": false
-        },
-        "showHeader": true
-      },
-      "pluginVersion": "10.0.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "influxdb_datasource"
-          },
-          "query": "from(bucket: \"alerts\")\n  |> range(start: -24h)\n  |> filter(fn: (r) => r._measurement == \"alerts\")\n  |> filter(fn: (r) => r._field == \"message\" or r._field == \"active\")\n  |> last()\n  |> pivot(rowKey:[\"_time\"], columnKey: [\"_field\"], valueColumn: \"_value\")\n  |> keep(columns: [\"_time\", \"device_id\", \"alert_type\", \"severity\", \"message\", \"active\"])",
-          "refId": "A"
-        }
-      ],
-      "title": "Active Alerts (Last 24h)",
-      "type": "table"
     },
     {
       "datasource": {
@@ -531,9 +285,9 @@
       },
       "gridPos": {
         "h": 9,
-        "w": 12,
+        "w": 18,
         "x": 0,
-        "y": 16
+        "y": 8
       },
       "id": 4,
       "options": {
@@ -554,114 +308,11 @@
             "type": "influxdb",
             "uid": "influxdb_datasource"
           },
-          "query": "from(bucket: \"soil_data\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"mqtt_consumer\")\n  |> filter(fn: (r) => r._field == \"soil_moisture_percent\")\n  |> aggregateWindow(every: 1m, fn: mean, createEmpty: false)",
+          "query": "from(bucket: \"soil_data\")\n  |> range(start: -1h)\n  |> filter(fn: (r) => r._measurement == \"mqtt_consumer\")\n  |> filter(fn: (r) => r._field == \"soil_moisture_percent\")\n  |> aggregateWindow(every: 1m, fn: mean, createEmpty: false)",
           "refId": "A"
         }
       ],
-      "title": "Soil Moisture Trend",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "influxdb_datasource"
-      },
-      "description": "Irrigation valve status over time",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "bars",
-            "fillOpacity": 100,
-            "gradientMode": "none",
-            "hideFrom": {
-              "tooltip": false,
-              "viz": false,
-              "legend": false
-            },
-            "lineInterpolation": "stepAfter",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [
-            {
-              "options": {
-                "0": {
-                  "text": "Closed",
-                  "color": "green"
-                },
-                "1": {
-                  "text": "Open",
-                  "color": "blue"
-                }
-              },
-              "type": "value"
-            }
-          ],
-          "max": 1.2,
-          "min": -0.2,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 9,
-        "w": 12,
-        "x": 12,
-        "y": 16
-      },
-      "id": 10,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": false
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "10.0.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "influxdb_datasource"
-          },
-          "query": "from(bucket: \"soil_data\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"irrigation_control\")\n  |> filter(fn: (r) => r._field == \"valve_open\")\n  |> aggregateWindow(every: 1m, fn: last, createEmpty: false)",
-          "refId": "A"
-        }
-      ],
-      "title": "Irrigation Valve Activity",
+      "title": "Soil Moisture Trend (1 Hour)",
       "type": "timeseries"
     },
     {
@@ -759,9 +410,9 @@
       },
       "gridPos": {
         "h": 9,
-        "w": 12,
+        "w": 18,
         "x": 0,
-        "y": 25
+        "y": 17
       },
       "id": 5,
       "options": {
@@ -782,107 +433,11 @@
             "type": "influxdb",
             "uid": "influxdb_datasource"
           },
-          "query": "from(bucket: \"soil_data\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"mqtt_consumer\")\n  |> filter(fn: (r) => r._field == \"soil_temperature_c\" or r._field == \"air_temperature_c\")\n  |> aggregateWindow(every: 1m, fn: mean, createEmpty: false)",
+          "query": "from(bucket: \"soil_data\")\n  |> range(start: -1h)\n  |> filter(fn: (r) => r._measurement == \"mqtt_consumer\")\n  |> filter(fn: (r) => r._field == \"soil_temperature_c\" or r._field == \"air_temperature_c\")\n  |> aggregateWindow(every: 1m, fn: mean, createEmpty: false)",
           "refId": "A"
         }
       ],
       "title": "Temperature Comparison (Soil vs Air)",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "influxdb_datasource"
-      },
-      "description": "Rainfall detection over time",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "Rainfall (mm)",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "bars",
-            "fillOpacity": 80,
-            "gradientMode": "scheme",
-            "hideFrom": {
-              "tooltip": false,
-              "viz": false,
-              "legend": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "light-blue",
-                "value": null
-              },
-              {
-                "color": "blue",
-                "value": 5
-              },
-              {
-                "color": "dark-blue",
-                "value": 15
-              }
-            ]
-          },
-          "unit": "lengthmm"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 9,
-        "w": 12,
-        "x": 12,
-        "y": 25
-      },
-      "id": 11,
-      "options": {
-        "legend": {
-          "calcs": ["sum", "max"],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "10.0.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "influxdb_datasource"
-          },
-          "query": "from(bucket: \"soil_data\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"mqtt_consumer\")\n  |> filter(fn: (r) => r._field == \"rainfall_mm\")\n  |> aggregateWindow(every: 5m, fn: sum, createEmpty: false)",
-          "refId": "A"
-        }
-      ],
-      "title": "Rainfall Detection",
       "type": "timeseries"
     },
     {
@@ -986,22 +541,6 @@
                 "value": "volt"
               }
             ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "rainfall_mm"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "Rainfall"
-              },
-              {
-                "id": "unit",
-                "value": "lengthmm"
-              }
-            ]
           }
         ]
       },
@@ -1009,7 +548,7 @@
         "h": 6,
         "w": 24,
         "x": 0,
-        "y": 34
+        "y": 26
       },
       "id": 6,
       "options": {
@@ -1031,7 +570,7 @@
             "type": "influxdb",
             "uid": "influxdb_datasource"
           },
-          "query": "from(bucket: \"soil_data\")\n  |> range(start: -5m)\n  |> filter(fn: (r) => r._measurement == \"mqtt_consumer\")\n  |> filter(fn: (r) => r._field == \"soil_moisture_percent\" or r._field == \"soil_temperature_c\" or r._field == \"air_temperature_c\" or r._field == \"air_humidity_percent\" or r._field == \"battery_voltage\" or r._field == \"rainfall_mm\")\n  |> last()\n  |> keep(columns: [\"_field\", \"_value\"])",
+          "query": "from(bucket: \"soil_data\")\n  |> range(start: -5m)\n  |> filter(fn: (r) => r._measurement == \"mqtt_consumer\")\n  |> filter(fn: (r) => r._field == \"soil_moisture_percent\" or r._field == \"soil_temperature_c\" or r._field == \"air_temperature_c\" or r._field == \"air_humidity_percent\" or r._field == \"battery_voltage\")\n  |> last()\n  |> keep(columns: [\"_field\", \"_value\"])",
           "refId": "A"
         }
       ],
@@ -1042,7 +581,7 @@
   "refresh": "30s",
   "schemaVersion": 38,
   "style": "dark",
-  "tags": ["iot", "agriculture", "soil", "sensors", "automation"],
+  "tags": ["iot", "agriculture", "soil", "sensors"],
   "templating": {
     "list": []
   },
@@ -1052,8 +591,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Smart Agriculture - Enhanced Monitoring",
-  "uid": "soil_monitoring_dashboard_enhanced",
-  "version": 2,
+  "title": "Smart Agriculture - Soil Monitoring",
+  "uid": "soil_monitoring_dashboard",
+  "version": 1,
   "weekStart": ""
 }

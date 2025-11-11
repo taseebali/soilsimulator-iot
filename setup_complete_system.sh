@@ -18,7 +18,17 @@ fi
 
 # Step 1: Install dependencies
 echo "Step 1/7: Installing Python dependencies..."
-pip3 install --upgrade paho-mqtt influxdb-client
+
+# Check if pip3 is installed
+if ! command -v pip3 &> /dev/null; then
+    echo "  ⚠ pip3 not found. Installing python3-pip..."
+    sudo apt-get update -qq
+    sudo apt-get install -y python3-pip
+fi
+
+# Install Python packages
+pip3 install --upgrade paho-mqtt influxdb-client 2>&1 | grep -v "Requirement already satisfied" || true
+echo "  ✓ Python dependencies installed"
 
 # Step 2: Create InfluxDB buckets
 echo ""

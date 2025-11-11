@@ -61,6 +61,16 @@ def generate_sensor_data(device_id, field_name, base_moisture=45):
     """
     moisture_variation = random.uniform(-5, 5)
     
+    # Simulate rainfall detection (0-50 mm)
+    # Higher chance of no rain, occasional moderate to heavy rain
+    rain_chance = random.random()
+    if rain_chance < 0.7:
+        rainfall_mm = 0.0  # No rain 70% of the time
+    elif rain_chance < 0.9:
+        rainfall_mm = round(random.uniform(0.5, 5.0), 1)  # Light rain
+    else:
+        rainfall_mm = round(random.uniform(5.0, 25.0), 1)  # Moderate to heavy rain
+    
     data = {
         "device_id": device_id,
         "timestamp": datetime.utcnow().isoformat() + "Z",
@@ -70,6 +80,7 @@ def generate_sensor_data(device_id, field_name, base_moisture=45):
         "air_temperature_c": round(random.uniform(20, 32), 1),
         "air_humidity_percent": round(random.uniform(40, 70), 1),
         "battery_voltage": round(random.uniform(3.6, 4.2), 2),
+        "rainfall_mm": rainfall_mm,
         "location": {"lat": 52.5200, "lon": 13.4050}  # Berlin coordinates
     }
     return data
