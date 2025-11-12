@@ -315,7 +315,7 @@
             "type": "influxdb",
             "uid": "influxdb_datasource"
           },
-          "query": "from(bucket: \"soil_data\")\n  |> range(start: -24h)\n  |> filter(fn: (r) => r._measurement == \"irrigation_control\")\n  |> filter(fn: (r) => r._field == \"valve_open\")\n  |> last()\n  |> fill(value: 0.0)",
+          "query": "from(bucket: \"soil_data\")\n  |> range(start: -5m)\n  |> filter(fn: (r) => r._measurement == \"irrigation_control\")\n  |> filter(fn: (r) => r._field == \"valve_open\")\n  |> group()\n  |> last()\n  |> fill(value: 0.0)",
           "refId": "A"
         }
       ],
