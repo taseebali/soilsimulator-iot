@@ -18,6 +18,11 @@ CLOUD_VM_SETUP.md
 ENHANCED_DASHBOARD_GUIDE.md
 MANUAL_SETUP.md
 
+# Architecture diagrams (generated files)
+iot_architecture_diagram.png
+iot_architecture_diagram.pdf
+create_architecture_diagram.py
+
 # Exclude old documentation that was removed
 CLOUD_DEPLOYMENT_README.md 
 CLOUD_SETUP_CHECKLIST.md
