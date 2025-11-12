@@ -302,10 +302,10 @@
           "calcs": ["lastNotNull"],
           "fields": ""
         },
-        "textMode": "value_and_name",
+        "textMode": "value",
         "text": {
           "titleSize": 16,
-          "valueSize": 40
+          "valueSize": 50
         }
       },
       "pluginVersion": "10.0.0",
@@ -384,7 +384,8 @@
           "calcs": ["lastNotNull"],
           "fields": ""
         },
-        "textMode": "auto"
+        "textMode": "value",
+        "text": {}
       },
       "pluginVersion": "10.0.0",
       "targets": [
@@ -1046,7 +1047,8 @@
           "calcs": ["lastNotNull"],
           "fields": ""
         },
-        "textMode": "auto"
+        "textMode": "value_and_name",
+        "text": {}
       },
       "pluginVersion": "10.0.0",
       "targets": [
