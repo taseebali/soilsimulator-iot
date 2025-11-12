@@ -434,9 +434,49 @@
           {
             "matcher": {
               "id": "byName",
+              "options": "_time"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Time"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "device_id"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Device"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "alert_type"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Alert Type"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
               "options": "severity"
             },
             "properties": [
+              {
+                "id": "displayName",
+                "value": "Severity"
+              },
               {
                 "id": "custom.cellOptions",
                 "value": {
@@ -464,6 +504,42 @@
                     "type": "value"
                   }
                 ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "message"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Message"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "active"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Active"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/alert_type=|device_id=|severity=/"
+            },
+            "properties": [
+              {
+                "id": "custom.hidden",
+                "value": true
               }
             ]
           }
@@ -932,6 +1008,18 @@
           }
         },
         "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/_value/"
+            },
+            "properties": [
+              {
+                "id": "custom.hidden",
+                "value": true
+              }
+            ]
+          },
           {
             "matcher": {
               "id": "byName",
