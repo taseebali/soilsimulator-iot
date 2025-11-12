@@ -252,11 +252,25 @@
                 }
               },
               "type": "value"
+            },
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "CLOSED",
+                  "color": "green"
+                }
+              },
+              "type": "special"
             }
           ],
           "thresholds": {
             "mode": "absolute",
             "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
               {
                 "color": "green",
                 "value": 0
@@ -266,7 +280,8 @@
                 "value": 1
               }
             ]
-          }
+          },
+          "noValue": "CLOSED"
         },
         "overrides": []
       },
@@ -300,12 +315,21 @@
             "type": "influxdb",
             "uid": "influxdb_datasource"
           },
-          "query": "from(bucket: \"soil_data\")\n  |> range(start: -5m)\n  |> filter(fn: (r) => r._measurement == \"irrigation_control\")\n  |> filter(fn: (r) => r._field == \"valve_open\")\n  |> last()",
+          "query": "from(bucket: \"soil_data\")\n  |> range(start: -24h)\n  |> filter(fn: (r) => r._measurement == \"irrigation_control\")\n  |> filter(fn: (r) => r._field == \"valve_open\")\n  |> last()\n  |> fill(value: 0.0)",
           "refId": "A"
         }
       ],
       "title": "Irrigation Valve",
-      "type": "stat"
+      "type": "stat",
+      "transformations": [
+        {
+          "id": "configFromData",
+          "options": {
+            "configRefId": "A",
+            "mappings": []
+          }
+        }
+      ]
     },
     {
       "datasource": {

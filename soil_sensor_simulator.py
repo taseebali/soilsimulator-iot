@@ -24,16 +24,44 @@ logger = logging.getLogger(__name__)
 # Global flag for graceful shutdown
 running = True
 
+# Global state for irrigation valve (controlled by actuator)
+irrigation_valve_open = False
+current_moisture = 45.0  # Starting moisture level
+
 def signal_handler(sig, frame):
     """Handle shutdown signals gracefully"""
     global running
     logger.info("Shutdown signal received. Stopping sensor simulator...")
     running = False
 
+def on_valve_message(client, userdata, msg):
+    """Callback when valve command is received"""
+    global irrigation_valve_open
+    try:
+        payload = json.loads(msg.payload.decode())
+        action = payload.get('action', '').upper()
+        device_id = payload.get('device_id', 'unknown')
+        
+        if action == 'OPEN':
+            irrigation_valve_open = True
+            logger.info(f"🚰 Irrigation valve OPENED for {device_id} - moisture will increase faster")
+        elif action == 'CLOSE':
+            irrigation_valve_open = False
+            logger.info(f"🚫 Irrigation valve CLOSED for {device_id} - natural moisture decline")
+        else:
+            logger.debug(f"Unknown valve action: {action}")
+    except Exception as e:
+        logger.warning(f"Failed to parse valve command: {e}")
+
 def on_connect(client, userdata, flags, rc, properties=None):
     """Callback when client connects to broker"""
     if rc == 0:
         logger.info(f"Connected to MQTT broker successfully")
+        # Subscribe to valve commands for closed-loop control
+        device_id = userdata.get('device_id') if userdata else 'field_sensor_01'
+        valve_topic = f"farm/{device_id}/actuators/valve"
+        client.subscribe(valve_topic, qos=1)
+        logger.info(f"📡 Subscribed to valve commands: {valve_topic}")
     else:
         logger.error(f"Failed to connect to MQTT broker. Return code: {rc}")
 
@@ -49,7 +77,7 @@ def on_publish(client, userdata, mid, reason_code=None, properties=None):
 
 def generate_sensor_data(device_id, field_name, base_moisture=45):
     """
-    Generate realistic soil sensor data
+    Generate realistic soil sensor data with closed-loop irrigation response
     
     Args:
         device_id: Unique identifier for the sensor device
@@ -59,7 +87,27 @@ def generate_sensor_data(device_id, field_name, base_moisture=45):
     Returns:
         dict: Sensor data payload
     """
-    moisture_variation = random.uniform(-5, 5)
+    global current_moisture, irrigation_valve_open
+    
+    # Initialize current_moisture if first run
+    if current_moisture == 45.0 and base_moisture != 45.0:
+        current_moisture = base_moisture
+    
+    # Realistic moisture dynamics based on irrigation state
+    if irrigation_valve_open:
+        # Valve is open: moisture increases significantly (irrigation effect)
+        moisture_change = random.uniform(0.5, 2.0)  # +0.5% to +2.0% per reading
+        current_moisture = min(100.0, current_moisture + moisture_change)
+        logger.debug(f"💧 Irrigating: moisture {current_moisture:.1f}% (+{moisture_change:.1f}%)")
+    else:
+        # Valve is closed: moisture decreases slowly (evaporation, plant uptake)
+        moisture_change = random.uniform(-0.5, -0.1)  # -0.5% to -0.1% per reading
+        current_moisture = max(0.0, current_moisture + moisture_change)
+        logger.debug(f"🌱 Natural decline: moisture {current_moisture:.1f}% ({moisture_change:.1f}%)")
+    
+    # Add small random variation for realism
+    moisture_variation = random.uniform(-0.5, 0.5)
+    current_moisture = max(0.0, min(100.0, current_moisture + moisture_variation))
     
     # Simulate rainfall detection (0-50 mm)
     # Higher chance of no rain, occasional moderate to heavy rain
@@ -75,7 +123,7 @@ def generate_sensor_data(device_id, field_name, base_moisture=45):
         "device_id": device_id,
         "timestamp": datetime.utcnow().isoformat() + "Z",
         "field_name": field_name,
-        "soil_moisture_percent": round(base_moisture + moisture_variation, 2),
+        "soil_moisture_percent": round(current_moisture, 2),
         "soil_temperature_c": round(random.uniform(18, 28), 1),
         "air_temperature_c": round(random.uniform(20, 32), 1),
         "air_humidity_percent": round(random.uniform(40, 70), 1),
@@ -142,10 +190,11 @@ def main():
     
     if not args.dry_run:
         # Create MQTT client with callback API version 2
-        client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
+        client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2, userdata={'device_id': args.device_id})
         client.on_connect = on_connect
         client.on_disconnect = on_disconnect
         client.on_publish = on_publish
+        client.on_message = on_valve_message  # Listen for valve commands
         
         # Set username and password if provided
         if args.username and args.password:
