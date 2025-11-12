@@ -182,9 +182,9 @@ class IrrigationController:
         
         # Publish valve command to MQTT
         command = {
+            'action': 'OPEN',  # Simulator expects 'action' field
             'device_id': device_id,
             'timestamp': datetime.utcnow().isoformat() + 'Z',
-            'command': 'open_valve',
             'duration_seconds': duration,
             'reason': 'low_moisture',
             'current_moisture': moisture,
@@ -221,9 +221,9 @@ class IrrigationController:
         
         # Publish valve command to MQTT
         command = {
+            'action': 'CLOSE',  # Simulator expects 'action' field
             'device_id': device_id,
             'timestamp': datetime.utcnow().isoformat() + 'Z',
-            'command': 'close_valve',
             'reason': reason,
             'actual_duration_seconds': duration
         }
