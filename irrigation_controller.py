@@ -37,12 +37,19 @@ class IrrigationController:
     COOLDOWN_PERIOD = 900          # 15 minutes between irrigations
     
     def __init__(self, mqtt_broker, mqtt_port, mqtt_username=None, mqtt_password=None,
-                 influxdb_url=None, influxdb_token=None, influxdb_org=None, influxdb_bucket=None):
+                 influxdb_url=None, influxdb_token=None, influxdb_org=None, influxdb_bucket=None,
+                 moisture_low=None, moisture_high=None):
         """Initialize irrigation controller"""
         self.mqtt_broker = mqtt_broker
         self.mqtt_port = mqtt_port
         self.mqtt_username = mqtt_username
         self.mqtt_password = mqtt_password
+        
+        # Override thresholds if provided
+        if moisture_low is not None:
+            self.MOISTURE_LOW = moisture_low
+        if moisture_high is not None:
+            self.MOISTURE_HIGH = moisture_high
         
         # MQTT client
         self.client = mqtt.Client(client_id="irrigation_controller", clean_session=True)
@@ -310,6 +317,10 @@ def main():
                         help='InfluxDB organization')
     parser.add_argument('--influxdb-bucket', default=os.getenv('INFLUXDB_BUCKET', 'soil_data'),
                         help='InfluxDB bucket')
+    parser.add_argument('--moisture-low', type=float, default=35.0,
+                        help='Moisture threshold to start irrigation (default: 35.0%%)')
+    parser.add_argument('--moisture-high', type=float, default=65.0,
+                        help='Moisture threshold to stop irrigation (default: 65.0%%)')
     parser.add_argument('--verbose', action='store_true',
                         help='Enable verbose logging')
     
@@ -327,7 +338,9 @@ def main():
         influxdb_url=args.influxdb_url,
         influxdb_token=args.influxdb_token,
         influxdb_org=args.influxdb_org,
-        influxdb_bucket=args.influxdb_bucket
+        influxdb_bucket=args.influxdb_bucket,
+        moisture_low=args.moisture_low,
+        moisture_high=args.moisture_high
     )
     
     # Run controller
