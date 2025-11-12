@@ -128,6 +128,9 @@ class IrrigationController:
         
         valve = self.valve_states[device_id]
         
+        # Always publish current valve state to InfluxDB for real-time monitoring
+        self._log_valve_status(device_id, valve['open'], moisture)
+        
         # Check if valve is currently open
         if valve['open']:
             # Check if we should close the valve
@@ -231,6 +234,32 @@ class IrrigationController:
         
         # Log to InfluxDB
         self._log_valve_action(device_id, 'close', duration, 0)
+    
+    def _log_valve_status(self, device_id, is_open, moisture):
+        """Log current valve status to InfluxDB for real-time monitoring"""
+        if not self.write_api:
+            return
+        
+        try:
+            point = {
+                "measurement": "irrigation_control",
+                "tags": {
+                    "device_id": device_id,
+                    "action": "status"
+                },
+                "fields": {
+                    "valve_open": 1.0 if is_open else 0.0,
+                    "duration_seconds": 0.0,
+                    "moisture_percent": float(moisture)
+                },
+                "time": datetime.utcnow()
+            }
+            
+            self.write_api.write(bucket=self.influx_bucket, org=self.influx_org, record=point)
+            logger.debug(f"Logged valve status (open={is_open}) to InfluxDB")
+            
+        except Exception as e:
+            logger.error(f"Error logging status to InfluxDB: {e}")
     
     def _log_valve_action(self, device_id, action, duration, moisture):
         """Log valve action to InfluxDB"""
